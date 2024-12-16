@@ -1,5 +1,10 @@
 package chat.config;
 
+/**
+ * 서버와 클라이언트에서 사용되는 상수 관리 클래스
+ * - 명령어, 포트 번호, 메시지 형식 등 공통적으로 사용되는 값을 정의
+ * - 변경이 용이하도록 중앙 관리 역할 수행
+ */
 public abstract class ChatConst {
     public static final String HOST = "localhost";
     public static final int SERVER_PORT = 45678;

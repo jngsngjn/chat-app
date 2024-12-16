@@ -1,6 +1,5 @@
 package chat;
 
-import chat.manager.ClientManager;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.DataInputStream;
@@ -11,12 +10,14 @@ import java.util.Scanner;
 
 import static chat.config.ChatConst.*;
 
-// TODO 이름을 서버에서 제공해야 함
+/**
+ * 클라이언트 메인 클래스
+ * - 서버에 연결하여 사용자 이름 등록 및 명령어를 서버에 전송
+ */
 @Slf4j
 public class ClientMain {
 
-    public static String NAME = "";
-    public static ClientManager clientManager = ClientManager.getInstance();
+    public static String name = "";
 
     public static void main(String[] args) throws IOException {
         try (Socket socket = new Socket(HOST, SERVER_PORT)) {
@@ -26,9 +27,9 @@ public class ClientMain {
 
             while (true) {
                 System.out.print("이름을 입력하세요: ");
-                NAME = sc.nextLine();
-                if (!NAME.isEmpty()) {
-                    clientManager.add(NAME);
+                name = sc.nextLine();
+                if (!name.isEmpty()) {
+                    output.writeUTF(name);
                     break;
                 }
             }
@@ -41,7 +42,9 @@ public class ClientMain {
                 }
 
                 if (command.equals(USERS)) {
-                    System.out.println(clientManager.allUsers());
+                    output.writeUTF(USERS);
+                    String usernames = input.readUTF();
+                    System.out.println("현재 사용자 목록: " + usernames);
                 }
             }
         }
