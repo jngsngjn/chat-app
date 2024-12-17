@@ -1,7 +1,6 @@
-package chat.server.manager;
+package chat.server.session;
 
 import chat.exception.NameDuplicateException;
-import chat.server.Session;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,11 +45,14 @@ public class SessionManager {
         }
     }
 
-    public void delete(Session session) {
+    public void clear(Session session) {
         sessionMap.remove(session);
     }
 
-    public void deleteAll() {
+    public void closeAll() {
+        for (Session session : sessionMap.keySet()) {
+            session.close();
+        }
         sessionMap.clear();
     }
 
