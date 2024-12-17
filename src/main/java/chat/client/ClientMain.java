@@ -18,14 +18,13 @@ import static chat.config.ChatConst.*;
 public class ClientMain {
     public static String name = "";
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         try (Socket socket = new Socket(HOST, SERVER_PORT);
              DataInputStream input = new DataInputStream(socket.getInputStream());
-             DataOutputStream output = new DataOutputStream(socket.getOutputStream())) {
+             DataOutputStream output = new DataOutputStream(socket.getOutputStream());
+             Scanner sc = new Scanner(System.in)) {
 
-            Scanner sc = new Scanner(System.in);
-
-            nameProcess(sc, output, input);
+            nameInit(sc, output, input);
             System.out.println(WELCOME_MSG);
 
             while (true) {
@@ -41,13 +40,19 @@ public class ClientMain {
                     // TODO 연결만 맺고 이름을 입력하지 않은 클라이언트가 있을 때 빈 문자열 출력되는 이슈
                     System.out.println("현재 사용자 목록: " + usernames);
                 }
+
+                if (command.equals(CHANGE)) {
+                    nameChange(sc, output, input);
+                }
             }
+        } catch (IOException e) {
+            log.error(e.getMessage());
         }
     }
 
-    private static void nameProcess(Scanner sc, DataOutputStream output, DataInputStream input) throws IOException {
+    private static void nameInit(Scanner sc, DataOutputStream output, DataInputStream input) throws IOException {
         while (true) {
-            System.out.print("이름을 입력하세요: ");
+            System.out.print(ENTER_NAME);
             name = sc.nextLine();
             if (!name.isEmpty()) {
                 output.writeUTF(name);
@@ -58,6 +63,30 @@ public class ClientMain {
                 Thread.currentThread().setName(name);
                 break;
             }
+        }
+    }
+
+    private static void nameChange(Scanner sc, DataOutputStream output, DataInputStream input) throws IOException {
+        System.out.print(ENTER_NAME);
+        String newName = sc.nextLine();
+
+        if (!newName.isEmpty()) {
+            if (newName.equals(name)) {
+                System.out.println("현재 사용 중인 이름과 같습니다.");
+                return;
+            }
+
+            output.writeUTF(CHANGE);
+            output.writeUTF(newName);
+
+            if (input.readInt() == DUPLICATE_NAME) {
+                System.out.println("현재 사용 중인 이름입니다.");
+                return;
+            }
+
+            name = newName;
+            System.out.println("이름 변경이 완료되었습니다.");
+            Thread.currentThread().setName(name);
         }
     }
 }

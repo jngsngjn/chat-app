@@ -21,6 +21,8 @@ public abstract class ChatConst {
             + "전체 사용자: " + USERS + "\n"
             + "종료: " + EXIT).trim();
 
+    public static final String ENTER_NAME = "이름을 입력해 주세요: ";
+
     public static final int OK = 200;
     public static final int DUPLICATE_NAME = 1000;
 }

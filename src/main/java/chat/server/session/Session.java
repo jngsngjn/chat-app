@@ -43,7 +43,10 @@ public class Session implements Runnable {
                 String msg = input.readUTF();
 
                 // 첫 번째 메시지는 이름으로 간주
-                nameProcess(msg);
+                if (isFirst) {
+                    nameProcess(msg);
+                    isFirst = false;
+                }
 
                 if (msg.equals(EXIT)) {
                     return;
@@ -52,6 +55,11 @@ public class Session implements Runnable {
                 if (msg.equals(USERS)) {
                     List<String> names = sessionManager.getAllNames();
                     output.writeUTF(String.valueOf(names));
+                }
+
+                if (msg.equals(CHANGE)) {
+                    String newName = input.readUTF();
+                    nameProcess(newName);
                 }
             }
         } catch (IOException e) {
@@ -63,14 +71,11 @@ public class Session implements Runnable {
     }
 
     private void nameProcess(String msg) throws IOException {
-        if (isFirst) {
-            try {
-                sessionManager.add(this, msg);
-                output.writeInt(OK);
-                isFirst = false;
-            } catch (NameDuplicateException e) {
-                output.writeInt(DUPLICATE_NAME);
-            }
+        try {
+            sessionManager.add(this, msg);
+            output.writeInt(OK);
+        } catch (NameDuplicateException e) {
+            output.writeInt(DUPLICATE_NAME);
         }
     }
 

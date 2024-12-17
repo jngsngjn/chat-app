@@ -36,7 +36,7 @@ public class SessionManager {
         sessionMap.put(session, name);
     }
 
-    private void nameDuplicateCheck(String name) {
+    public void nameDuplicateCheck(String name) {
         List<String> names = getAllNames();
         for (String s : names) {
             if (s.equals(name)) {
