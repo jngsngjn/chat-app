@@ -29,6 +29,10 @@ public class ClientMain {
                 name = sc.nextLine();
                 if (!name.isEmpty()) {
                     output.writeUTF(name);
+                    if (input.readInt() == DUPLICATE_NAME) {
+                        System.out.println("현재 사용 중인 이름입니다.");
+                        continue;
+                    }
                     break;
                 }
             }

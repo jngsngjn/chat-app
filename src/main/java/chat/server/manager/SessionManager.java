@@ -1,5 +1,6 @@
 package chat.server.manager;
 
+import chat.exception.NameDuplicateException;
 import chat.server.Session;
 
 import java.util.ArrayList;
@@ -32,7 +33,17 @@ public class SessionManager {
     }
 
     public void add(Session session, String name) {
+        nameDuplicateCheck(name);
         sessionMap.put(session, name);
+    }
+
+    private void nameDuplicateCheck(String name) {
+        List<String> names = getAllNames();
+        for (String s : names) {
+            if (s.equals(name)) {
+                throw new NameDuplicateException();
+            }
+        }
     }
 
     public void delete(Session session) {
