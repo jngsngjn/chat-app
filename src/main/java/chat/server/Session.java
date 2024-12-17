@@ -1,7 +1,6 @@
-package chat;
+package chat.server;
 
-import chat.manager.SessionManager;
-import lombok.Getter;
+import chat.server.manager.SessionManager;
 import lombok.SneakyThrows;
 
 import java.io.DataInputStream;

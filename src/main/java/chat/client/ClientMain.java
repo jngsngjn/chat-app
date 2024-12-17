@@ -1,4 +1,4 @@
-package chat;
+package chat.client;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -16,7 +16,6 @@ import static chat.config.ChatConst.*;
  */
 @Slf4j
 public class ClientMain {
-
     public static String name = "";
 
     public static void main(String[] args) throws IOException {

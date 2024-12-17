@@ -1,13 +1,10 @@
-package chat.manager;
+package chat.server.manager;
 
-import chat.Session;
-import lombok.SneakyThrows;
+import chat.server.Session;
 
-import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
