@@ -1,6 +1,7 @@
 package chat.server.session;
 
 import chat.exception.NameDuplicateException;
+import chat.util.MsgUtil;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
@@ -67,8 +68,7 @@ public class Session implements Runnable {
 
                 if (msg.equals(JOIN)) {
                     joined = true;
-                    sessionManager.sendToAllUsersJoinMsg(this);
-
+                    MsgUtil.sendJoinMsgToAllUsers(this);
                     chattingMod();
                 }
             }
@@ -92,7 +92,7 @@ public class Session implements Runnable {
     private void chattingMod() throws IOException {
         while (true) {
             String msg = input.readUTF();
-            sessionManager.sendMsgToAllUsers(msg);
+            MsgUtil.sendMsgToAllUsers(this, msg);
         }
     }
 
