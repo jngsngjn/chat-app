@@ -44,6 +44,12 @@ public class ClientMain {
                 if (command.equals(CHANGE)) {
                     nameChange(sc, output, input);
                 }
+
+                if (command.equals(JOIN)) {
+                    output.writeUTF(JOIN);
+
+
+                }
             }
         } catch (IOException e) {
             log.error(e.getMessage());

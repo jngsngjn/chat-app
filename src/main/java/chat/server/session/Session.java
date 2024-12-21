@@ -28,6 +28,7 @@ public class Session implements Runnable {
     private boolean closed = false;
 
     private boolean isFirst = true;
+    private boolean joined = false;
 
     public Session(Socket socket) throws IOException {
         this.socket = socket;
@@ -60,6 +61,10 @@ public class Session implements Runnable {
                 if (msg.equals(CHANGE)) {
                     String newName = input.readUTF();
                     nameProcess(newName);
+                }
+
+                if (msg.equals(JOIN)) {
+
                 }
             }
         } catch (IOException e) {

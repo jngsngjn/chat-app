@@ -59,4 +59,10 @@ public class SessionManager {
     public List<String> getAllNames() {
         return new ArrayList<>(sessionMap.values());
     }
+
+    public String getNameBySession(Session session) {
+        return sessionMap.get(session);
+    }
+
+
 }
