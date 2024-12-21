@@ -47,12 +47,20 @@ public class ClientMain {
 
                 if (command.equals(JOIN)) {
                     output.writeUTF(JOIN);
+                    Thread thread = new Thread(new ChatReceiveThread(input));
+                    thread.start();
 
-
+                    chattingMod(output, sc);
                 }
             }
         } catch (IOException e) {
             log.error(e.getMessage());
+        }
+    }
+
+    private static void chattingMod(DataOutputStream output, Scanner sc) throws IOException {
+        while (true) {
+            output.writeUTF(sc.nextLine());
         }
     }
 

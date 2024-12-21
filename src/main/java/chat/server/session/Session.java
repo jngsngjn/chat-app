@@ -1,6 +1,7 @@
 package chat.server.session;
 
 import chat.exception.NameDuplicateException;
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.DataInputStream;
@@ -19,6 +20,7 @@ import static chat.util.SocketUtil.closeAll;
  * - 클라이언트로부터 받은 명령어를 처리하고, 적절한 응답을 전송
  */
 @Slf4j
+@Getter
 public class Session implements Runnable {
 
     private final Socket socket;
@@ -64,7 +66,10 @@ public class Session implements Runnable {
                 }
 
                 if (msg.equals(JOIN)) {
+                    joined = true;
+                    sessionManager.sendToAllUsersJoinMsg(this);
 
+                    chattingMod();
                 }
             }
         } catch (IOException e) {
@@ -81,6 +86,12 @@ public class Session implements Runnable {
             output.writeInt(OK);
         } catch (NameDuplicateException e) {
             output.writeInt(DUPLICATE_NAME);
+        }
+    }
+
+    private void chattingMod() {
+        while (true) {
+
         }
     }
 
