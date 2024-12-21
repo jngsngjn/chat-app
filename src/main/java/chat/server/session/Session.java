@@ -70,6 +70,8 @@ public class Session implements Runnable {
                     joined = true;
                     MsgUtil.sendJoinMsgToAllUsers(this);
                     chattingMod();
+                    MsgUtil.sendExitMsgToAllUsers(this);
+                    joined = false;
                 }
             }
         } catch (IOException e) {
@@ -92,6 +94,9 @@ public class Session implements Runnable {
     private void chattingMod() throws IOException {
         while (true) {
             String msg = input.readUTF();
+            if (msg.equals(EXIT)) {
+                break;
+            }
             MsgUtil.sendMsgToAllUsers(this, msg);
         }
     }

@@ -19,6 +19,9 @@ public class ClientMain {
     public static String name = "";
 
     public static void main(String[] args) {
+        Thread thread = null;
+        ChatReceiveThread chatReceiveThread = null;
+
         try (Socket socket = new Socket(HOST, SERVER_PORT);
              DataInputStream input = new DataInputStream(socket.getInputStream());
              DataOutputStream output = new DataOutputStream(socket.getOutputStream());
@@ -47,10 +50,15 @@ public class ClientMain {
 
                 if (command.equals(JOIN)) {
                     output.writeUTF(JOIN);
-                    Thread thread = new Thread(new ChatReceiveThread(input));
-                    thread.start();
-
-                    chattingMod(output, sc);
+                    System.out.println("채팅방에 입장했습니다.");
+                    if (thread == null) {
+                        chatReceiveThread = new ChatReceiveThread(input);
+                        thread = new Thread(chatReceiveThread);
+                        thread.start();
+                    } else {
+                        chatReceiveThread.setRunning(true);
+                    }
+                    chattingMod(output, sc, chatReceiveThread);
                 }
             }
         } catch (IOException e) {
@@ -58,9 +66,18 @@ public class ClientMain {
         }
     }
 
-    private static void chattingMod(DataOutputStream output, Scanner sc) throws IOException {
+    private static void chattingMod(DataOutputStream output, Scanner sc, ChatReceiveThread chatReceiveThread) throws IOException {
         while (true) {
-            output.writeUTF(sc.nextLine());
+            String msg = sc.nextLine();
+            if (!msg.isEmpty()) {
+                if (msg.equals(EXIT)) {
+                    System.out.println("채팅을 종료합니다.");
+                    chatReceiveThread.setRunning(false);
+                    output.writeUTF(EXIT);
+                    break;
+                }
+                output.writeUTF(msg);
+            }
         }
     }
 

@@ -3,14 +3,10 @@ package chat.server.session;
 import chat.exception.NameDuplicateException;
 import lombok.Getter;
 
-import java.io.IOException;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-
-import static chat.config.ChatConst.TIME_FORMAT;
 
 /**
  * 세션 관리 클래스 (서버 측)
@@ -20,7 +16,7 @@ import static chat.config.ChatConst.TIME_FORMAT;
 @Getter
 public class SessionManager {
 
-    private static SessionManager sessionManager;
+    private volatile static SessionManager sessionManager;
     private final Map<Session, String> sessionMap = new ConcurrentHashMap<>();
 
     private SessionManager() {

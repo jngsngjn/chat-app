@@ -22,6 +22,12 @@ public class MsgUtil {
         sendToAllUsers(msg);
     }
 
+    public static void sendExitMsgToAllUsers(Session session) throws IOException {
+        String name = sessionManager.getNameBySession(session);
+        String msg = createExitMsg(name);
+        sendToAllUsers(msg);
+    }
+
     public static void sendToAllUsers(String msg) throws IOException {
         for (Session s : sessionManager.getSessionMap().keySet()) {
             if (s.isJoined()) {
@@ -38,6 +44,10 @@ public class MsgUtil {
 
     private static String createJoinMsg(String name) {
         return "[" + name + "] 님이 입장했습니다.";
+    }
+
+    private static String createExitMsg(String name) {
+        return "[" + name + "] 님이 퇴장했습니다.";
     }
 
     private static String createChatMsg(String name, String msg) {
