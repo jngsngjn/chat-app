@@ -1,5 +1,7 @@
 package chat.config;
 
+import java.text.SimpleDateFormat;
+
 /**
  * 서버와 클라이언트에서 사용되는 상수 관리 클래스
  * - 명령어, 포트 번호, 메시지 형식 등 공통적으로 사용되는 값을 정의
@@ -22,6 +24,8 @@ public abstract class ChatConst {
             + "종료: " + EXIT).trim();
 
     public static final String ENTER_NAME = "이름을 입력해 주세요: ";
+    public static final String TIME_FORMAT = "HH:mm:ss";
+    SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
 
     public static final int OK = 200;
     public static final int DUPLICATE_NAME = 1000;

@@ -3,6 +3,7 @@ package chat.server.session;
 import chat.exception.NameDuplicateException;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -71,6 +72,17 @@ public class SessionManager {
         for (Session s : sessionMap.keySet()) {
             if (s.isJoined()) {
                 s.getOutput().writeUTF(msg);
+            }
+        }
+    }
+
+    public void sendMsgToAllUsers(String msg) throws IOException {
+        for (Session s : sessionMap.keySet()) {
+            if (s.isJoined()) {
+                String name = getNameBySession(s);
+
+                String result = "[" + LocalDateTime.now() + "] [" + name + "]: " + msg;
+                s.getOutput().writeUTF(result);
             }
         }
     }

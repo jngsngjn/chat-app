@@ -89,9 +89,10 @@ public class Session implements Runnable {
         }
     }
 
-    private void chattingMod() {
+    private void chattingMod() throws IOException {
         while (true) {
-
+            String msg = input.readUTF();
+            sessionManager.sendMsgToAllUsers(msg);
         }
     }
 
